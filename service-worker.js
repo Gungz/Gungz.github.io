@@ -1,4 +1,4 @@
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
 if (workbox) {
   console.log(`Workbox berhasil dimuat`);
@@ -27,21 +27,21 @@ workbox.precaching.precacheAndRoute([
 
 workbox.routing.registerRoute(
     /^https:\/\/fonts\.googleapis\.com/,
-    workbox.strategies.staleWhileRevalidate({
+    new workbox.strategies.StaleWhileRevalidate({
       cacheName: 'google-fonts-stylesheets',
     }),
 );
 
 workbox.routing.registerRoute(
     new RegExp('/pages/'),
-    workbox.strategies.staleWhileRevalidate({
+    new workbox.strategies.StaleWhileRevalidate({
       cacheName: 'pages',
     }),
 );
 
 workbox.routing.registerRoute(
     /^https:\/\/api\.football-data\.org\/v2/,
-    workbox.strategies.networkFirst({
+    new workbox.strategies.NetworkFirst({
       cacheName: 'football-data',
       networkTimeoutSeconds: 3,
     }),
