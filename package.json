@@ -1,0 +1,19 @@
+{
+  "name": "footballpwa",
+  "version": "1.0.0",
+  "description": "Football PWA",
+  "main": "push.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint service-worker.js push.js --fix"
+  },
+  "author": "Gungz",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.13.0",
+    "eslint-config-google": "^0.14.0"
+  },
+  "dependencies": {
+    "web-push": "^3.4.4"
+  }
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Premier League</title>
+    <meta name="description" content="Premier League PWA" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/materialize.min.css" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#00897B" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Navigasi -->
+    <nav class="red lighten-1" role="navigation">
+      <div class="nav-wrapper container">
+        <a href="./index.html" id="homeLink" class="brand-logo" id="logo-container">Premier League</a>
+        <a href="./index.html" id="backLink" class="sidenav-trigger" data-target="nav-mobile">
+          <i class="material-icons">arrow_back</i>
+        </a>
+        <ul class="topnav right hide-on-med-and-down"></ul>
+        <ul class="sidenav" id="nav-mobile"></ul>
+      </div>
+    </nav>
+    <!-- Akhir Navigasi -->
+    <div class="progress" id="loader">
+      <div class="indeterminate"></div>
+    </div>
+
+    <div class="container" id="body-content"></div>
+
+    <div class="fixed-action-btn">
+      <a class="btn-floating btn-large red" id="save">
+        <i class="large material-icons">save</i>
+      </a>
+    </div>
+
+    <script src="js/materialize.min.js"></script>
+    <script src="js/api.js"></script>
+
+    <script src="js/idb.js"></script>
+    <script src="js/db.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("loader").style.display = "none";
+        var urlParams = new URLSearchParams(window.location.search);
+        var isFromSaved = urlParams.get("saved");
+
+        var save = document.getElementById("save");
+        var homeLink = document.getElementById("homeLink");
+        var backLink = document.getElementById("backLink");
+
+        if (isFromSaved) {
+          // Hide fab jika dimuat dari indexed db
+          save.style.display = 'none';
+          homeLink.href += "#saved";
+          backLink.href += "#saved";
+          
+          // ambil artikel lalu tampilkan
+          getSavedClubById();
+        } else {
+          var item = getClubById();
+        }
+
+        save.onclick = function() {
+          console.log("Tombol save di klik.");
+          item.then(function(club) {
+            saveForLater(club).then(() => {
+              M.toast({html: 'Club is successfully saved!'});
+            }).catch((err) => {
+              console.log(err);
+              M.toast({html: err});
+            });
+          });
+        };
+      });
+    </script>
+  </body>
+</html>
